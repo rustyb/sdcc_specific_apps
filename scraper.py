@@ -2,10 +2,9 @@ import scraperwiki
 import requests
 import lxml.html
 import json
-import geojson
 
 aps = requests.get("http://api.morph.io/rustyb/sdcc_planning_apps/data.json?key=qOxgzwsMrnI6coobFe4z&query=select%20%22reg_ref%22%20from%20'data'")
-aps_json = geojson.loads(aps.content)
+aps_json = json.loads(aps.content)
 
 unique_keys = [ 'reg_ref' ]
 for i in range(len(aps_json)):
