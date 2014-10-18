@@ -11,8 +11,8 @@ for i in range(len(aps_json)):
     html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i]['reg_ref'])).content
     print "App: %s" % str(aps_json[i]['reg_ref'])
     dom = lxml.html.fromstring(html)
-    dds = dom.cssselect('dl.details-list dd')[0]
-    dds1 = dom.cssselect('dl.details-list dd')[1]
+    dds = dom.cssselect('dl.details-list')[0]
+    dds1 = dom.cssselect('dl.details-list')[1]
     if len(dds1) > 0:
         post = {
             'reg_ref': str(aps_json[i]['reg_ref']),
