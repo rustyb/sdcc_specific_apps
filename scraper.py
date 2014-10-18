@@ -15,7 +15,7 @@ for i in range(len(aps_json)):
     if len(dom.cssselect('dl.details-list')) == 2:
         dds1 = dom.cssselect('dl.details-list')[1]
     else:
-        dds1 = 0
+        dds1 = []
     
     if len(dds1) > 0:
         post = {
