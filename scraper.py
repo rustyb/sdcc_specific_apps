@@ -11,20 +11,34 @@ for i in range(len(aps_json)):
     html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i]['reg_ref'])).content
     print "App: %s" % str(aps_json[i]['reg_ref'])
     dom = lxml.html.fromstring(html)
-    dds = dom.cssselect('dl.details-list dd')
-       
-    post = {
-        'reg_ref': str(aps_json[i]['reg_ref']),
-        'date_recieved': dds[2].text_content(),
-        'last_action': dds[3].text_content(),
-        'application_type': dds[4].text_content(),
-        'submission_type': dds[5].text_content(),
-        'applicant': dds[7].text_content(),
-        'location': dds[8].text_content(),
-        'proposed_dev': dds[9].text_content(),
-        'decision_due': dds[10].text_content(),
-        'decision_date': dds[11].text_content(),
-        'decision': dds[12].text_content(),
-        'final_grant_date': dds[13].text_content()
-    }
+    dds = dom.cssselect('dl.details-list dd')[0]
+    dds1 = dom.cssselect('dl.details-list dd')[1]
+    if len(dds1) > 0:
+        post = {
+            'reg_ref': str(aps_json[i]['reg_ref']),
+            'date_recieved': dds[2].text_content(),
+            'last_action': dds[3].text_content(),
+            'application_type': dds[4].text_content(),
+            'submission_type': dds[5].text_content(),
+            'applicant': dds[7].text_content(),
+            'location': dds[8].text_content(),
+            'proposed_dev': dds[9].text_content(),
+            'decision_due': dds[10].text_content(),
+            'decision_date': dds1[0].text_content(),
+            'decision': dds1[1].text_content(),
+            'final_grant_date': dds1[2].text_content()
+        }
+    else:
+        post = {
+            'reg_ref': str(aps_json[i]['reg_ref']),
+            'date_recieved': dds[2].text_content(),
+            'last_action': dds[3].text_content(),
+            'application_type': dds[4].text_content(),
+            'submission_type': dds[5].text_content(),
+            'applicant': dds[7].text_content(),
+            'location': dds[8].text_content(),
+            'proposed_dev': dds[9].text_content(),
+            'decision_due': dds[10].text_content()
+        }
+    
     scraperwiki.sql.save(unique_keys, post)
