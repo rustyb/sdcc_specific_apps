@@ -11,9 +11,10 @@ for i in range(len(aps_json)):
     html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i]['reg_ref'])).content
     print "App: %s" % str(aps_json[i]['reg_ref'])
     dom = lxml.html.fromstring(html)
-    dds = dom.cssselect('dl.details-list')[0]
+    dds = dom.cssselect('dl.details-list')[0].cssselect('dd')
+    
     if len(dom.cssselect('dl.details-list')) == 2:
-        dds1 = dom.cssselect('dl.details-list')[1]
+        dds1 = dom.cssselect('dl.details-list')[1].cssselect('dd')
     else:
         dds1 = []
     
@@ -45,4 +46,4 @@ for i in range(len(aps_json)):
             'decision_due': dds[10].text_content()
         }
     
-    scraperwiki.sql.save(unique_keys, post)
+    print post
