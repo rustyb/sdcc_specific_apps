@@ -11,20 +11,20 @@ for i in range(len(aps_json)):
     html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i]['reg_ref'])).content
     print "App: %s" % str(aps_json[i]['reg_ref'])
     dom = lxml.html.fromstring(html)
+    dds = dom.cssselect('dl.details-list dd')
        
-    for entry in dom.cssselect('.details-list'):
-            post = {
-                'reg_ref': str(aps_json[i]['reg_ref']),
-                'date_recieved': entry[0].cssselect('dd')[2].text_content(),
-                'last_action': entry[0].cssselect('dd')[3].text_content(),
-                'application_type': entry[0].cssselect('dd')[4].text_content(),
-                'submission_type': entry[0].cssselect('dd')[5].text_content(),
-                'applicant': entry[0].cssselect('dd')[7].text_content(),
-                'location': entry[0].cssselect('dd')[8].text_content(),
-                'proposed_dev': entry[0].cssselect('dd')[9].text_content(),
-                'decision_due': entry[0].cssselect('dd')[10].text_content(),
-                'decision_date': entry[1].cssselect('dd')[0].text_content(),
-                'decision': entry[1].cssselect('dd')[1].text_content(),
-                'final_grant_date': entry[1].cssselect('dd')[2].text_content()
-            }
-            scraperwiki.sql.save(unique_keys, post)
+    post = {
+        'reg_ref': str(aps_json[i]['reg_ref']),
+        'date_recieved': dds[2].text_content(),
+        'last_action': dds[3].text_content(),
+        'application_type': dds[4].text_content(),
+        'submission_type': dds[5].text_content(),
+        'applicant': dds[7].text_content(),
+        'location': dds[8].text_content(),
+        'proposed_dev': dds[9].text_content(),
+        'decision_due': dds[10].text_content(),
+        'decision_date': dds[11].text_content(),
+        'decision': dds[12].text_content(),
+        'final_grant_date': dds[13].text_content()
+    }
+    scraperwiki.sql.save(unique_keys, post)
