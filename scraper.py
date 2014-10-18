@@ -8,13 +8,13 @@ aps_json = json.loads(aps.content)
 
 unique_keys = [ 'reg_ref' ]
 for i in range(len(aps_json)):
-    html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i])).content
-    print "App: %s" % i
+    html = requests.get("http://www.sdublincoco.ie/index.aspx?pageid=144&regref=%s" % str(aps_json[i]['reg_ref'])).content
+    print "App: %s" % str(aps_json[i]['reg_ref'])
     dom = lxml.html.fromstring(html)
        
     for entry in dom.cssselect('.details-list'):
             post = {
-                'reg_ref': str(aps_json[i]),
+                'reg_ref': str(aps_json[i]['reg_ref']),
                 'date_recieved': entry.cssselect('dd')[2].text_content(),
                 'last_action': entry.cssselect('dd')[3].text_content(),
                 'application_type': entry.cssselect('dd')[4].text_content(),
