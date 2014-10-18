@@ -46,4 +46,5 @@ for i in range(len(aps_json)):
             'decision_due': dds[10].text_content()
         }
     
-    print post
+    #print post
+    scraperwiki.sql.save(unique_keys, post)
